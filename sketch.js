@@ -57,7 +57,8 @@ function setup() {
 function draw() {
     canvasSize = createVector(windowWidth / 4, windowWidth / 4);
     canvasPosition = createVector(windowWidth - canvasSize.x - 50, windowHeight - canvasSize.y - 50);
-    handleMouseEvent()
+    handleMouseEvent();
+    handleTouchEvent();
 
     //network
     var mat1 = multMat(inputMat, w1);
@@ -112,6 +113,14 @@ function handleMouseEvent() {
         handleInput();
     }
 }
+function touchMoved() {
+    if (touches.length > 0) {
+        drawInput(canvasBuffer);
+        handleInput();
+    }
+}
+
+
 
 function handleInput() {
     canvasBuffer.loadPixels();
@@ -128,11 +137,11 @@ function handleInput() {
     }
 }
 
-function drawInput(buffer) {
+function drawInput(buffer, startInputPosition, endInputPosition) {
     buffer.stroke(255);
     buffer.strokeWeight(2);
-    let mousePosition = createVector(mouseX, mouseY);
     let pmousePosition = createVector(pmouseX, pmouseY);
+    let mousePosition = createVector(mouseX, mouseY);
     let startPosition = getCanvasRelativePosition(pmousePosition);
     let endPosition = getCanvasRelativePosition(mousePosition);
     buffer.line(
