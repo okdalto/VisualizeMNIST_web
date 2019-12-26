@@ -85,7 +85,8 @@ function draw() {
     var resultPos = drawMat(softmax(mat3), -200, visualizationBuffer);
     visualizationBuffer.pop();
     let display = touches.length + ' touches';
-    visualizationBuffer.text(display, 5, 10);
+    visualizationBuffer.textSize(30);
+    visualizationBuffer.text(display, 100, 100);
 
 
     image(visualizationBuffer, 0, 0);
@@ -110,18 +111,38 @@ function windowResized() {
 
 function handleMouseEvent() {
     if (mouseIsPressed) {
-        drawInput(canvasBuffer);
+        let pmousePosition = createVector(pmouseX, pmouseY);
+        let mousePosition = createVector(mouseX, mouseY);
+        let startPosition = getCanvasRelativePosition(pmousePosition);
+        let endPosition = getCanvasRelativePosition(mousePosition);
+
+        drawInput(canvasBuffer, startPosition, endPosition);
         handleInput();
     }
 }
+
 function touchMoved() {
+    let pmousePosition = createVector(pmouseX, pmouseY);
+    let mousePosition = createVector(mouseX, mouseY);
+    let startPosition = getCanvasRelativePosition(pmousePosition);
+    let endPosition = getCanvasRelativePosition(mousePosition);
+
     visualizationBuffer.ellipse(mouseX, mouseY, 100, 100);
-    drawInput(canvasBuffer);
+    drawInput(canvasBuffer, startPosition, endPosition);
     handleInput();
     return false;
 }
 
+function mousePressed() {
+    let mousePosition = createVector(mouseX, mouseY);
+    if (mousePosition.x < canvasPosition.x + canvasSize.x && mousePosition > canvasPosition.x) {
+        easycam.removeMouseListeners();
+    }
+}
 
+function mouseReleased() {
+    easycam.attachMouseListeners(this._renderer);
+}
 
 function handleInput() {
     canvasBuffer.loadPixels();
@@ -138,13 +159,9 @@ function handleInput() {
     }
 }
 
-function drawInput(buffer, startInputPosition, endInputPosition) {
+function drawInput(buffer, startPosition, endPosition) {
     buffer.stroke(255);
     buffer.strokeWeight(2);
-    let pmousePosition = createVector(pmouseX, pmouseY);
-    let mousePosition = createVector(mouseX, mouseY);
-    let startPosition = getCanvasRelativePosition(pmousePosition);
-    let endPosition = getCanvasRelativePosition(mousePosition);
     buffer.line(
         startPosition.x,
         startPosition.y,
