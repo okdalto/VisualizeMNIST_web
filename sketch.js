@@ -92,6 +92,7 @@ function draw() {
 
 function keyPressed() {
     canvasBuffer.background(0);
+    handleInput();
 }
 
 function windowResized() {
@@ -108,12 +109,12 @@ function windowResized() {
 function handleMouseEvent() {
     if (mouseIsPressed) {
         drawInput(canvasBuffer);
-        canvasBuffer.loadPixels();
         handleInput();
     }
 }
 
 function handleInput() {
+    canvasBuffer.loadPixels();
     //canvas to 1d inputMat
     for (let i = 0; i < 28; i++) {
         for (let j = 0; j < 28; j++) {
