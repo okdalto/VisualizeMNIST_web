@@ -3,16 +3,25 @@ var canvasBuffer;
 var w = window.innerWidth;
 var h = window.innerHeight;
 
-var w1;
-var b1;
-var w2;
-var b2;
-var w3;
-var b3;
+let w1;
+let b1;
+let w2;
+let b2;
+let w3;
+let b3;
 
 var inputMat = new Array(1);
 for (let i = 0; i < inputMat.length; i++) {
     inputMat[i] = new Array(784).fill(0);
+}
+
+function preload() {
+    w1 = loadMat("assets/weight1.txt");
+    w2 = loadMat("assets/weight2.txt");
+    w3 = loadMat("assets/weight3.txt");
+    b1 = loadMat("assets/biases1.txt");
+    b2 = loadMat("assets/biases2.txt");
+    b3 = loadMat("assets/biases3.txt");
 }
 
 function setup() {
@@ -22,12 +31,6 @@ function setup() {
     visualizationBuffer = createGraphics(w / 2, h, WEBGL);
     canvasBuffer = createGraphics(128, 128, WEBGL);
 
-    w1 = loadMat("assets/weight1.txt");
-    w2 = loadMat("assets/weight2.txt");
-    w3 = loadMat("assets/weight3.txt");
-    b1 = loadMat("assets/biases1.txt");
-    b2 = loadMat("assets/biases2.txt");
-    b3 = loadMat("assets/biases3.txt");
 }
 
 function draw() {
