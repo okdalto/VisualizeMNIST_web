@@ -134,8 +134,7 @@ function touchMoved() {
 }
 
 function mousePressed() {
-    let mousePosition = createVector(mouseX, mouseY);
-    if (mousePosition.x < canvasPosition.x + canvasSize.x && mousePosition > canvasPosition.x) {
+    if (mouseX < canvasPosition.x + canvasSize.x && mouseX > canvasPosition.x) {
         console.log("mousePressed");
         easycam.removeMouseListeners();
     }
