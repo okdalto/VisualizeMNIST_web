@@ -22,12 +22,12 @@ function setup() {
     visualizationBuffer = createGraphics(w / 2, h, WEBGL);
     canvasBuffer = createGraphics(128, 128, WEBGL);
 
-    w1 = loadMat("asset/weight1.txt");
-    w2 = loadMat("asset/weight2.txt");
-    w3 = loadMat("asset/weight3.txt");
-    b1 = loadMat("asset/biases1.txt");
-    b2 = loadMat("asset/biases2.txt");
-    b3 = loadMat("asset/biases3.txt");
+    w1 = loadMat("assets/weight1.txt");
+    w2 = loadMat("assets/weight2.txt");
+    w3 = loadMat("assets/weight3.txt");
+    b1 = loadMat("assets/biases1.txt");
+    b2 = loadMat("assets/biases2.txt");
+    b3 = loadMat("assets/biases3.txt");
 }
 
 function draw() {
