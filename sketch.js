@@ -117,6 +117,7 @@ function touchMoved() {
         drawInput(canvasBuffer);
         handleInput();
     }
+    return false;
 }
 
 
