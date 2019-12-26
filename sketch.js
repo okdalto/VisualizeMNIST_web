@@ -66,6 +66,7 @@ function draw() {
 
     //visualization
     visualizationBuffer.background(0);
+    visualizationBuffer.rotatex(frameCount * 0.1);
     var inputPos = drawMat(reshapedMat1, 0, visualizationBuffer);
     var varw1Pos = drawMat(reshapedMat2, -100, visualizationBuffer);
     var w2Pos = drawMat(reshapedMat3, -150, visualizationBuffer);
