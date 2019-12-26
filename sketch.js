@@ -55,7 +55,7 @@ function setup() {
 }
 
 function draw() {
-    canvasSize = createVector(windowWidth / 3, windowWidth / 3);
+    canvasSize = createVector(windowWidth / 4, windowWidth / 4);
     canvasPosition = createVector(windowWidth - canvasSize.x, windowHeight - canvasSize.y);
     handleMouseEvent()
 
