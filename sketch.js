@@ -43,7 +43,13 @@ function setup() {
     visualizationBuffer = createGraphics(windowWidth, windowHeight, WEBGL);
     canvasBuffer = createGraphics(28, 28);
     canvasBuffer.background(0);
-    easycam = createEasyCam();
+    easycam = Dw.EasyCam(visualizationBuffer._renderer, { distance: 600 });
+
+    easycam.setDistanceMin(10);
+    easycam.setDistanceMax(3000);
+
+    easycam.attachMouseListeners(this._renderer);
+    easycam.setViewport([0, 0, windowWidth, windowHeight]);
 }
 
 function draw() {
@@ -98,6 +104,12 @@ function keyPressed() {
 
 function windowResized() {
     resizeCanvas(windowWidth, windowHeight);
+
+    easycam.renderer.resize(windowWidth, windowHeight);
+
+    easycam.graphics.width = windowWidth;
+    easycam.graphics.height = windowHeight;
+
     easycam.setViewport([0, 0, windowWidth, windowHeight]);
 }
 
