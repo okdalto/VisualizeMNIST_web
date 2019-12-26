@@ -1,7 +1,5 @@
 let visualizationBuffer;
 let canvasBuffer;
-let w = window.innerWidth;
-let h = window.innerHeight;
 
 let w1;
 let b1;
@@ -41,10 +39,8 @@ var easycam;
 
 function setup() {
     pixelDensity(1);
-    w = window.innerWidth;
-    h = window.innerHeight;
-    createCanvas(w, h);
-    visualizationBuffer = createGraphics(w, h, WEBGL);
+    createCanvas(windowWidth, windowHeight);
+    visualizationBuffer = createGraphics(windowWidth, windowHeight, WEBGL);
     canvasBuffer = createGraphics(28, 28);
     canvasBuffer.background(0);
     easycam = createEasyCam();
@@ -101,10 +97,8 @@ function keyPressed() {
 }
 
 function windowResized() {
-    w = window.innerWidth;
-    h = window.innerHeight;
-    resizeCanvas(w, h);
-    easycam.setViewport([0, 0, w, h]);
+    resizeCanvas(windowWidth, windowHeight);
+    easycam.setViewport([0, 0, windowWidth, windowHeight]);
 }
 
 function drawbuffer(buffer) {
