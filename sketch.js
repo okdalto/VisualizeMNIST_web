@@ -135,8 +135,10 @@ function touchMoved() {
 
 function mousePressed() {
     if (mouseX < canvasPosition.x + canvasSize.x && mouseX > canvasPosition.x) {
-        console.log("mousePressed");
-        easycam.setActivation(false);
+        if (mouseY < canvasPosition.y + canvasSize.y && mouseY > canvasPosition.y) {
+            console.log("mousePressed");
+            easycam.setActivation(false);
+        }
     }
 }
 
