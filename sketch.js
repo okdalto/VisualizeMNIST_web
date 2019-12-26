@@ -58,7 +58,6 @@ function draw() {
     canvasSize = createVector(windowWidth / 4, windowWidth / 4);
     canvasPosition = createVector(windowWidth - canvasSize.x - 50, windowHeight - canvasSize.y - 50);
     handleMouseEvent();
-    handleTouchEvent();
 
     //network
     var mat1 = multMat(inputMat, w1);
