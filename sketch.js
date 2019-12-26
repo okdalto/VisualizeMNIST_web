@@ -84,6 +84,9 @@ function draw() {
     var w2Pos = drawMat(reshapedMat3, -150, visualizationBuffer);
     var resultPos = drawMat(softmax(mat3), -200, visualizationBuffer);
     visualizationBuffer.pop();
+    let display = touches.length + ' touches';
+    visualizationBuffer.text(display, 5, 10);
+
 
     image(visualizationBuffer, 0, 0);
     image(canvasBuffer, canvasPosition.x, canvasPosition.y, canvasSize.x, canvasSize.y);
