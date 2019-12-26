@@ -1,10 +1,17 @@
+
+let result;
+function preload() {
+    result = loadStrings('assets/biases3.txt');
+}
+
 function setup() {
     w = window.innerWidth;
     h = window.innerHeight;
-    createCanvas(640, 480);
+    createCanvas(w, h);
 }
 
 function draw() {
+    text(random(result), 10, 10, 80, 80);
     if (mouseIsPressed) {
         fill(0);
     } else {
