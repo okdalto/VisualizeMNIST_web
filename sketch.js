@@ -95,7 +95,7 @@ function draw() {
     visualizationBuffer.pop();
 
     image(visualizationBuffer, 0, 0);
-    image(canvasBuffer, w / 2, 0, width * 0.5, width * 0.5);
+    image(canvasBuffer, windowWidth / 2, 0, width * 0.5, width * 0.5);
 }
 
 function keyPressed() {
