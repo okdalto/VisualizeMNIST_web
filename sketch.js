@@ -36,6 +36,8 @@ function preload() {
 
 let isVertical = false;
 var easycam;
+let canvasSize;
+let canvasPosition;
 
 function setup() {
     pixelDensity(1);
@@ -53,6 +55,8 @@ function setup() {
 }
 
 function draw() {
+    canvasSize = createVector(windowWidth / 3, windowWidth / 3);
+    canvasPosition = createVector(windowWidth - canvasSize.x, windowHeight - canvasSize.y);
     handleMouseEvent()
 
     //network
@@ -83,8 +87,6 @@ function draw() {
 
     image(visualizationBuffer, 0, 0);
 
-    var canvasSize = createVector(windowWidth / 3, windowWidth / 3);
-    var canvasPosition = createVector(windowWidth - canvasSize.x, windowHeight - canvasSize.y);
 
     image(canvasBuffer, canvasPosition.x, canvasPosition.y, canvasSize.x, canvasSize.y);
 }
