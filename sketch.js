@@ -1,7 +1,7 @@
-var visualizationBuffer;
-var canvasBuffer;
-var w = window.innerWidth;
-var h = window.innerHeight;
+let visualizationBuffer;
+let canvasBuffer;
+let w = window.innerWidth;
+let h = window.innerHeight;
 
 let w1;
 let b1;
@@ -10,7 +10,7 @@ let b2;
 let w3;
 let b3;
 
-var inputMat = new Array(1);
+let inputMat = new Array(1);
 for (let i = 0; i < inputMat.length; i++) {
     inputMat[i] = new Array(784).fill(0);
 }
@@ -41,12 +41,25 @@ function setup() {
     h = window.innerHeight;
     createCanvas(w, h);
     visualizationBuffer = createGraphics(w / 2, h, WEBGL);
-    canvasBuffer = createGraphics(128, 128, WEBGL);
-
+    canvasBuffer = createGraphics(28, 28);
+    canvasBuffer.background(0);
 }
 
 function draw() {
-
+    drawbuffer(canvasBuffer);
+    canvasBuffer.loadPixels();
+    console.log(canvasBuffer.width);
+    console.log(canvasBuffer.pixels.length);
+    //canvas to 1d inputMat
+    for (let i = 0; i < 28; i++) {
+        for (let j = 0; j < 28; j++) {
+            let row = 28 * i;
+            let col = j;
+            let idx = row + col;
+            //inputMat[0][idx] = red(canvasBuffer.pixels[idx]);
+            inputMat[0][idx] = inputMat[0][idx] / 255.0;
+        }
+    }
     //network
     var mat1 = multMat(inputMat, w1);
     mat1 = addMat(mat1, b1);
@@ -66,27 +79,36 @@ function draw() {
 
     //visualization
     visualizationBuffer.background(0);
-    visualizationBuffer.rotateX(frameCount * 0.1);
+    visualizationBuffer.push();
+    visualizationBuffer.rotateX(frameCount * 0.01);
+    visualizationBuffer.rotateY(frameCount * 0.01);
     var inputPos = drawMat(reshapedMat1, 0, visualizationBuffer);
     var varw1Pos = drawMat(reshapedMat2, -100, visualizationBuffer);
     var w2Pos = drawMat(reshapedMat3, -150, visualizationBuffer);
     var resultPos = drawMat(softmax(mat3), -200, visualizationBuffer);
+    visualizationBuffer.pop();
 
-
-    drawbuffer(visualizationBuffer);
-    drawbuffer(canvasBuffer);
     image(visualizationBuffer, 0, 0);
-    image(canvasBuffer, w / 2, 0, width / 2, height);
+    image(canvasBuffer, w / 2, 0, width * 0.5, height);
 }
 
 function drawbuffer(buffer) {
-    buffer.push();
-    buffer.rotateX(frameCount * 0.01);
-    buffer.rotateY(frameCount * 0.01);
-    buffer.box(3);
-    buffer.pop();
+    //buffer.background(0);
+    if (mouseIsPressed) {
+        buffer.stroke(255);
+        buffer.strokeWeight(2);
+        buffer.line(
+          28 * (float(mouseX) / (width) - 0.5) * 2.0,
+          28 * float(mouseY) / (height),
+          28 * (float(pmouseX) / (width) - 0.5) * 2.0,
+          28 * float(pmouseY) / (height)
+        );
+    }
 }
 
+function keyPressed() {
+    canvasBuffer.background(0);
+}
 
 function windowResized() {
     w = window.innerWidth;
@@ -170,8 +192,8 @@ function drawMat(mat, yPosition, pg) {
             pg.push();
             result[i][j] = createVector(
               yPosition,
-              i * scale - (row * scale) * 0.5 + ((row - 1) * scale) * 0.5,
-              j * scale - (col * scale) * 0.5 + ((col - 1) * scale) * 0.5
+              i * scale - (row * scale) * 0.5,
+              j * scale - (col * scale) * 0.5
             );
             pg.translate(result[i][j].x, result[i][j].y, result[i][j].z);
             pg.stroke(255);
