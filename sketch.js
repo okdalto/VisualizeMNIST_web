@@ -56,18 +56,6 @@ function draw() {
     drawbuffer(canvasBuffer);
     canvasBuffer.loadPixels();
 
-    //canvas to 1d inputMat
-    for (let i = 0; i < 28; i++) {
-        for (let j = 0; j < 28; j++) {
-            let row = 28 * i;
-            let col = j;
-            let idx = row + col;
-
-            inputMat[0][idx] = red(canvasBuffer.get(j, i));
-            inputMat[0][idx] = float(inputMat[0][idx]) / 255.0;
-        }
-    }
-
     //network
     var mat1 = multMat(inputMat, w1);
     mat1 = addMat(mat1, b1);
@@ -117,18 +105,36 @@ function windowResized() {
     easycam.setViewport([0, 0, windowWidth, windowHeight]);
 }
 
-function drawbuffer(buffer) {
-    //buffer.background(0);
+function handleMouseEvent() {
     if (mouseIsPressed) {
-        buffer.stroke(255);
-        buffer.strokeWeight(2);
-        buffer.line(
-          28 * (float(mouseX) / (width) - 0.5) * 2.0,
-          28 * float(mouseY) / (height),
-          28 * (float(pmouseX) / (width) - 0.5) * 2.0,
-          28 * float(pmouseY) / (height)
-        );
+        drawbuffer(canvasBuffer);
+        handleInput();
     }
+}
+
+function handleInput() {
+    //canvas to 1d inputMat
+    for (let i = 0; i < 28; i++) {
+        for (let j = 0; j < 28; j++) {
+            let row = 28 * i;
+            let col = j;
+            let idx = row + col;
+
+            inputMat[0][idx] = red(canvasBuffer.get(j, i));
+            inputMat[0][idx] = float(inputMat[0][idx]) / 255.0;
+        }
+    }
+}
+
+function drawbuffer(buffer) {
+    buffer.stroke(255);
+    buffer.strokeWeight(2);
+    buffer.line(
+      28 * (float(mouseX) / (width) - 0.5) * 2.0,
+      28 * float(mouseY) / (height),
+      28 * (float(pmouseX) / (width) - 0.5) * 2.0,
+      28 * float(pmouseY) / (height)
+    );
 }
 
 
@@ -151,7 +157,6 @@ function loadMat(fileName) {
     for (let i = 0; i < result.length; i++) {
         result[i] = new Array(row).fill(0);
     }
-
 
     for (let i = 0; i < col; i++) {
         //println(lines[i]);
