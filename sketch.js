@@ -106,7 +106,7 @@ function windowResized() {
 
 function handleMouseEvent() {
     if (mouseIsPressed) {
-        drawbuffer(canvasBuffer);
+        drawInput(canvasBuffer);
         canvasBuffer.loadPixels();
         handleInput();
     }
@@ -126,7 +126,7 @@ function handleInput() {
     }
 }
 
-function drawbuffer(buffer) {
+function drawInput(buffer) {
     buffer.stroke(255);
     buffer.strokeWeight(2);
     buffer.line(
