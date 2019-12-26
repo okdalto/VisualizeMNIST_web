@@ -37,14 +37,17 @@ function preload() {
 }
 
 let isVertical = false;
+var easycam;
 
 function setup() {
+    pixelDensity(1);
     w = window.innerWidth;
     h = window.innerHeight;
     createCanvas(w, h);
-    visualizationBuffer = createGraphics(w / 2, h, WEBGL);
+    visualizationBuffer = createGraphics(w, h, WEBGL);
     canvasBuffer = createGraphics(28, 28);
     canvasBuffer.background(0);
+    easycam = createEasyCam();
 }
 
 function draw() {
@@ -94,6 +97,17 @@ function draw() {
     //image(canvasBuffer, w / 2, 0, width * 0.5, width * 0.5);
 }
 
+function keyPressed() {
+    canvasBuffer.background(0);
+}
+
+function windowResized() {
+    w = window.innerWidth;
+    h = window.innerHeight;
+    resizeCanvas(w, h);
+    easycam.setViewport([0, 0, w, h]);
+}
+
 function drawbuffer(buffer) {
     //buffer.background(0);
     if (mouseIsPressed) {
@@ -106,16 +120,6 @@ function drawbuffer(buffer) {
           28 * float(pmouseY) / (height)
         );
     }
-}
-
-function keyPressed() {
-    canvasBuffer.background(0);
-}
-
-function windowResized() {
-    w = window.innerWidth;
-    h = window.innerHeight;
-    resizeCanvas(w, h);
 }
 
 
