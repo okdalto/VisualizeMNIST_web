@@ -136,13 +136,13 @@ function touchMoved() {
 function mousePressed() {
     if (mouseX < canvasPosition.x + canvasSize.x && mouseX > canvasPosition.x) {
         console.log("mousePressed");
-        easycam.removeMouseListeners();
+        easycam.setActivation(false);
     }
 }
 
 function mouseReleased() {
     console.log("mouseReleased");
-    easycam.attachMouseListeners(this._renderer);
+    easycam.setActivation(true);
 }
 
 function handleInput() {

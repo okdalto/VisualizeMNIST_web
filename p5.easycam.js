@@ -149,7 +149,7 @@ class EasyCam {
     // viewport for the mouse-pointer [x,y,w,h]
     this.viewport = args.viewport.slice();
     
-
+    this.activation = true;
     
     
     
@@ -564,31 +564,33 @@ class EasyCam {
    * if "auto_update" is true, this is called automatically in a pre-draw call.
    */
   update(){
-    var cam = this.cam;
-    var mouse = cam.mouse;
+      if(this.activation){
+          var cam = this.cam;
+          var mouse = cam.mouse;
     
-    mouse.mousedrag();
+          mouse.mousedrag();
 
-    var b_update = false;
-    b_update |= cam.dampedZoom.update();
-    b_update |= cam.dampedPanX.update();
-    b_update |= cam.dampedPanY.update();
-    b_update |= cam.dampedRotX.update();
-    b_update |= cam.dampedRotY.update();
-    b_update |= cam.dampedRotZ.update();
+          var b_update = false;
+          b_update |= cam.dampedZoom.update();
+          b_update |= cam.dampedPanX.update();
+          b_update |= cam.dampedPanY.update();
+          b_update |= cam.dampedRotX.update();
+          b_update |= cam.dampedRotY.update();
+          b_update |= cam.dampedRotZ.update();
     
-    // interpolated actions have lower priority then damped actions
-    if(b_update){
-      cam.timedRot .stop();
-      cam.timedPan .stop();
-      cam.timedzoom.stop();
-    } else {
-      cam.timedRot .update();
-      cam.timedPan .update();
-      cam.timedzoom.update();
-    }
+          // interpolated actions have lower priority then damped actions
+          if(b_update){
+              cam.timedRot .stop();
+              cam.timedPan .stop();
+              cam.timedzoom.stop();
+          } else {
+              cam.timedRot .update();
+              cam.timedPan .update();
+              cam.timedzoom.update();
+          }
  
-    cam.apply();
+          cam.apply();
+      }
   }
   
   /** 
@@ -628,7 +630,9 @@ class EasyCam {
     return this.viewport;
   }
   
-  
+  setActivation(activation){
+      this.activation = activation;
+  }
 
   //
   // mouse state changes
