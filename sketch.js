@@ -95,7 +95,11 @@ function draw() {
     visualizationBuffer.pop();
 
     image(visualizationBuffer, 0, 0);
-    image(canvasBuffer, windowWidth / 2, 0, width * 0.5, width * 0.5);
+
+    var canvasSize = createVector(windowWidth / 3, windowWidth / 3);
+    var canvasPosition = createVector(windowWidth - canvasSize.x, windowHeight - canvasSize.y);
+
+    image(canvasBuffer, canvasPosition.x, canvasPosition.y, canvasSize.x, canvasSize.y);
 }
 
 function keyPressed() {
