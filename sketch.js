@@ -36,6 +36,8 @@ function preload() {
     printMat(b3);
 }
 
+let isVertical = false;
+
 function setup() {
     w = window.innerWidth;
     h = window.innerHeight;
@@ -48,18 +50,19 @@ function setup() {
 function draw() {
     drawbuffer(canvasBuffer);
     canvasBuffer.loadPixels();
-    console.log(canvasBuffer.width);
-    console.log(canvasBuffer.pixels.length);
+
     //canvas to 1d inputMat
     for (let i = 0; i < 28; i++) {
         for (let j = 0; j < 28; j++) {
             let row = 28 * i;
             let col = j;
             let idx = row + col;
-            //inputMat[0][idx] = red(canvasBuffer.pixels[idx]);
-            inputMat[0][idx] = inputMat[0][idx] / 255.0;
+
+            inputMat[0][idx] = red(canvasBuffer.get(j, i));
+            inputMat[0][idx] = float(inputMat[0][idx]) / 255.0;
         }
     }
+
     //network
     var mat1 = multMat(inputMat, w1);
     mat1 = addMat(mat1, b1);
@@ -80,7 +83,6 @@ function draw() {
     //visualization
     visualizationBuffer.background(0);
     visualizationBuffer.push();
-    visualizationBuffer.rotateX(frameCount * 0.01);
     visualizationBuffer.rotateY(frameCount * 0.01);
     var inputPos = drawMat(reshapedMat1, 0, visualizationBuffer);
     var varw1Pos = drawMat(reshapedMat2, -100, visualizationBuffer);
@@ -89,7 +91,7 @@ function draw() {
     visualizationBuffer.pop();
 
     image(visualizationBuffer, 0, 0);
-    image(canvasBuffer, w / 2, 0, width * 0.5, height);
+    //image(canvasBuffer, w / 2, 0, width * 0.5, width * 0.5);
 }
 
 function drawbuffer(buffer) {
@@ -287,7 +289,7 @@ function printMat(mat) {
         }
         printString += "\n"
     }
-    // console.log(printString);
+    console.log(printString);
     //console.log("row = " + row + " col = " + col);
 }
 
