@@ -53,8 +53,7 @@ function setup() {
 }
 
 function draw() {
-    drawbuffer(canvasBuffer);
-    canvasBuffer.loadPixels();
+    handleMouseEvent()
 
     //network
     var mat1 = multMat(inputMat, w1);
@@ -108,6 +107,7 @@ function windowResized() {
 function handleMouseEvent() {
     if (mouseIsPressed) {
         drawbuffer(canvasBuffer);
+        canvasBuffer.loadPixels();
         handleInput();
     }
 }
