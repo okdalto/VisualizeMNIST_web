@@ -87,7 +87,6 @@ function draw() {
 
     image(visualizationBuffer, 0, 0);
 
-
     image(canvasBuffer, canvasPosition.x, canvasPosition.y, canvasSize.x, canvasSize.y);
 }
 
@@ -131,12 +130,22 @@ function handleInput() {
 function drawInput(buffer) {
     buffer.stroke(255);
     buffer.strokeWeight(2);
+    let mousePosition = createVector(mouseX, mouseY);
+    let pmousePosition = createVector(pmouseX, pmouseY);
+    let startPosition = getCanvasRelativePosition(pmousePosition);
+    let endPosition = getCanvasRelativePosition(mousePosition);
     buffer.line(
-      28 * (float(mouseX) / (width) - 0.5) * 2.0,
-      28 * float(mouseY) / (height),
-      28 * (float(pmouseX) / (width) - 0.5) * 2.0,
-      28 * float(pmouseY) / (height)
+        startPosition.x,
+        startPosition.y,
+        endPosition.x,
+        endPosition.y
     );
+}
+
+function getCanvasRelativePosition(mousePosition) {
+    let x = map(mousePosition.x, canvasPosition.x, canvasPosition.x + canvasSize.x, 0, 28);
+    let y = map(mousePosition.y, canvasPosition.y, canvasPosition.y + canvasSize.y, 0, 28);
+    return createVector(x,y);
 }
 
 
