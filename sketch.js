@@ -157,8 +157,8 @@ function multMat(matA, matB) {
 function drawMat(mat, yPosition, pg) {
     var row = mat.length;
     var col = mat[0].length;
-    var scale = 50;
-    var boxSize = 20;
+    var scale = 12;
+    var boxSize = 10;
     var result = new Array(row);
     for (let i = 0; i < result.length; i++) {
         result[i] = new Array(col).fill(0);
@@ -179,7 +179,7 @@ function drawMat(mat, yPosition, pg) {
             pg.pop();
         }
     }
-    console.log(result);
+    //console.log(result);
     return result;
 }
 
