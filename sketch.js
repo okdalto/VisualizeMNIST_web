@@ -86,7 +86,6 @@ function draw() {
     visualizationBuffer.pop();
 
     image(visualizationBuffer, 0, 0);
-
     image(canvasBuffer, canvasPosition.x, canvasPosition.y, canvasSize.x, canvasSize.y);
 }
 
@@ -113,10 +112,9 @@ function handleMouseEvent() {
     }
 }
 function touchMoved() {
-    if (touches.length > 0) {
-        drawInput(canvasBuffer);
-        handleInput();
-    }
+    visualizationBuffer.ellipse(mouseX, mouseY, 100, 100);
+    drawInput(canvasBuffer);
+    handleInput();
     return false;
 }
 
