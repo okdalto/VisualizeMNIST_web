@@ -45,6 +45,10 @@ let mat2;
 let mat3;
 let mat4;
 
+let reshapedMat1;
+let reshapedMat2;
+let reshapedMat3;
+
 
 
 
@@ -62,18 +66,8 @@ function setup() {
     easycam.attachMouseListeners(this._renderer);
     easycam.setViewport([0, 0, windowWidth, windowHeight]);
 
-    mat1 = multMat(inputMat, w1);
-    mat1 = addMat(mat1, b1);
-    relu(mat1);
-
-    mat2 = multMat(mat1, w2);
-    mat2 = addMat(mat2, b2);
-    relu(mat2);
-
-    mat3 = multMat(mat2, w3);
-    mat3 = addMat(mat3, b3);
-
-    mat4 = softmax(mat3);
+    handleNetwork();
+    
     setCanvasSize(windowWidth < windowHeight);
 }
 
@@ -90,19 +84,14 @@ function setCanvasSize(isVertical){
 function draw() {
     handleMouseEvent();
 
-    //reshape to visualize
-    var reshapedMat1 = reshape(inputMat, 28);
-    var reshapedMat2 = reshape(mat1, 8);
-    var reshapedMat3 = reshape(mat2, 4);
-
     //visualization
     visualizationBuffer.background(0);
     visualizationBuffer.push();
     visualizationBuffer.rotateY(PI);
     visualizationBuffer.rotateZ(PI*0.5);
-    var inputPos = drawMat(reshapedMat1, 0, visualizationBuffer);
-    var varw1Pos = drawMat(reshapedMat2, -100, visualizationBuffer);
-    var w2Pos = drawMat(reshapedMat3, -150, visualizationBuffer);
+    var inputPos  = drawMat(reshapedMat1, 0, visualizationBuffer);
+    var w1Pos     = drawMat(reshapedMat2, -100, visualizationBuffer);
+    var w2Pos     = drawMat(reshapedMat3, -150, visualizationBuffer);
     var resultPos = drawMat(mat4, -200, visualizationBuffer);
     visualizationBuffer.pop();
 
@@ -213,6 +202,11 @@ function handleNetwork() {
     mat3 = multMat(mat2, w3);
     mat3 = addMat(mat3, b3);
     mat4 = softmax(mat3);
+    
+    //reshape to visualize
+    reshapedMat1 = reshape(inputMat, 28);
+    reshapedMat2 = reshape(mat1, 8);
+    reshapedMat3 = reshape(mat2, 4);
 }
 
 function drawInput(buffer, startPosition, endPosition) {
@@ -312,7 +306,8 @@ function drawMat(mat, zPosition, pg) {
             );
             pg.translate(result[i][j].x, result[i][j].y, result[i][j].z);
             pg.stroke(255);
-            pg.fill(mat[i][j] * 255);
+            pg.strokeWeight(1);
+            pg.fill(abs(mat[i][j]) * 255);
             pg.box(boxSize);
             pg.pop();
         }
