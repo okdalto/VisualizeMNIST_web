@@ -121,17 +121,17 @@ function handleMouseEvent() {
     }
 }
 
-function touchMoved() {
-    let pmousePosition = createVector(pmouseX, pmouseY);
-    let mousePosition = createVector(mouseX, mouseY);
-    let startPosition = getCanvasRelativePosition(pmousePosition);
-    let endPosition = getCanvasRelativePosition(mousePosition);
-
-    visualizationBuffer.ellipse(mouseX, mouseY, 100, 100);
-    drawInput(canvasBuffer, startPosition, endPosition);
-    handleInput();
-    return false;
-}
+//function touchMoved() {
+//    let pmousePosition = createVector(pmouseX, pmouseY);
+//    let mousePosition = createVector(mouseX, mouseY);
+//    let startPosition = getCanvasRelativePosition(pmousePosition);
+//    let endPosition = getCanvasRelativePosition(mousePosition);
+//
+//    visualizationBuffer.ellipse(mouseX, mouseY, 100, 100);
+//    drawInput(canvasBuffer, startPosition, endPosition);
+//    handleInput();
+//    return false;
+//}
 
 function mousePressed() {
     if (mouseX < canvasPosition.x + canvasSize.x && mouseX > canvasPosition.x) {
@@ -171,6 +171,7 @@ function drawInput(buffer, startPosition, endPosition) {
         endPosition.x,
         endPosition.y
     );
+    buffer.ellipse(mouseX, mouseY, 3, 3);
 }
 
 function getCanvasRelativePosition(mousePosition) {
