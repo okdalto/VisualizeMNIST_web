@@ -92,7 +92,7 @@ function draw() {
     image(visualizationBuffer, 0, 0);
     image(canvasBuffer, canvasPosition.x, canvasPosition.y, canvasSize.x, canvasSize.y);
     ellipse(mouseX, mouseY, 100, 100);
-    ellipse(touches[i].x, touches[i].y, 100, 100);
+    ellipse(touches[0].x, touches[0].y, 100, 100);
 }
 
 function keyPressed() {
