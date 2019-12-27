@@ -368,13 +368,15 @@
 //    }
 //}
 
-
+let pg;
 
 function setup() {
     createCanvas(400, 400, WEBGL);
+    pg = createGraphics(width, height, WEBGL);
 }
 
 function draw() {
     background(220);
-    ellipse(mouseX - width / 2, mouseY - height / 2, 100, 100);
+    pg.ellipse(mouseX - width / 2, mouseY - height / 2, 100, 100);
+    image(pg, -width / 2, -height / 2);
 }
