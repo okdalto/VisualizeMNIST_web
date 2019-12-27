@@ -45,6 +45,9 @@ let mat2;
 let mat3;
 let mat4;
 
+
+
+
 function setup() {
     pixelDensity(1);
     createCanvas(windowWidth, windowHeight);
@@ -71,14 +74,21 @@ function setup() {
     mat3 = addMat(mat3, b3);
 
     mat4 = softmax(mat3);
+    setCanvasSize(windowWidth < windowHeight);
+}
+
+function setCanvasSize(isVertical){
+    if(isVertical){
+        canvasSize = createVector(windowWidth / 2.5, windowWidth / 2.5);
+        canvasPosition = createVector(windowWidth - canvasSize.x - 50, windowHeight - canvasSize.y - 50);
+    }else{
+        canvasSize = createVector(windowWidth / 5, windowWidth / 5);
+        canvasPosition = createVector(windowWidth - canvasSize.x - 50, windowHeight - canvasSize.y - 50);
+    }
 }
 
 function draw() {
-    canvasSize = createVector(windowWidth / 4, windowWidth / 4);
-    canvasPosition = createVector(windowWidth - canvasSize.x - 50, windowHeight - canvasSize.y - 50);
     handleMouseEvent();
-
-
 
     //reshape to visualize
     var reshapedMat1 = reshape(inputMat, 28);
@@ -88,21 +98,25 @@ function draw() {
     //visualization
     visualizationBuffer.background(0);
     visualizationBuffer.push();
+    visualizationBuffer.rotateY(PI);
+    visualizationBuffer.rotateZ(PI*0.5);
     var inputPos = drawMat(reshapedMat1, 0, visualizationBuffer);
     var varw1Pos = drawMat(reshapedMat2, -100, visualizationBuffer);
     var w2Pos = drawMat(reshapedMat3, -150, visualizationBuffer);
     var resultPos = drawMat(mat4, -200, visualizationBuffer);
     visualizationBuffer.pop();
 
-
-
     image(visualizationBuffer, 0, 0);
+    let borderWidth = 10;
+    rect(canvasPosition.x - borderWidth * 0.5, canvasPosition.y - borderWidth * 0.5, canvasSize.x + borderWidth, canvasSize.y + borderWidth);
     image(canvasBuffer, canvasPosition.x, canvasPosition.y, canvasSize.x, canvasSize.y);
-    ellipse(mouseX, mouseY, 100, 100);
-    
 }
 
 function keyPressed() {
+    resetCanvas();
+}
+
+function resetCanvas(){
     canvasBuffer.background(0);
     handleNetwork();
 }
@@ -116,44 +130,61 @@ function windowResized() {
     easycam.graphics.height = windowHeight;
 
     easycam.setViewport([0, 0, windowWidth, windowHeight]);
+    setCanvasSize(windowWidth < windowHeight);
 }
 
+var beforeMouseState = easycamMouse.isPressed;
+var state;
+var drawing = false;
 function handleMouseEvent() {
-    if (mouseIsPressed) {
-        let pmousePosition = createVector(pmouseX, pmouseY);
-        let mousePosition = createVector(mouseX, mouseY);
-        let startPosition = getCanvasRelativePosition(pmousePosition);
-        let endPosition = getCanvasRelativePosition(mousePosition);
-
-        drawInput(canvasBuffer, startPosition, endPosition);
-        handleNetwork();
+    let easycamMouse = easycam.getMouse();
+    let currentMouseState = easycamMouse.isPressed;
+    let currentMouseTapcount = easycamMouse.tapcount;
+    
+    if(currentMouseTapcount >= 2){
+        resetCanvas();
     }
-}
 
-//function touchMoved() {
-//    let pmousePosition = createVector(pmouseX, pmouseY);
-//    let mousePosition = createVector(mouseX, mouseY);
-//    let startPosition = getCanvasRelativePosition(pmousePosition);
-//    let endPosition = getCanvasRelativePosition(mousePosition);
-//
-//    visualizationBuffer.ellipse(mouseX, mouseY, 100, 100);
-//    drawInput(canvasBuffer, startPosition, endPosition);
-//    handleNetwork();
-//    return false;
-//}
-
-function mousePressed() {
-    if (mouseX < canvasPosition.x + canvasSize.x && mouseX > canvasPosition.x) {
-        if (mouseY < canvasPosition.y + canvasSize.y && mouseY > canvasPosition.y) {
-            console.log("mousePressed");
-            easycam.setActivation(false);
+    
+    if(currentMouseState != beforeMouseState){
+        if(currentMouseState == true){
+            console.log("pressed!");
+            easycamMouse.prev = [easycamMouse.curr[0], easycamMouse.curr[1], easycamMouse.curr[2]];
+            if (easycamMouse.curr[0] < canvasPosition.x + canvasSize.x && easycamMouse.curr[0] > canvasPosition.x) {
+                if (easycamMouse.curr[1] < canvasPosition.y + canvasSize.y && easycamMouse.curr[1] > canvasPosition.y) {
+                    state = easycam.getState();
+                    console.log("mousePressed");
+                    easycam.setActivation(false);
+                    drawing = true;
+                }
+            }
+        }else{
+            if(drawing){
+                easycam.setState(state, 2000);
+                easycam.setActivation(true);
+                drawing = false;
+            }
+            console.log("released!");
         }
     }
-}
+    
+    
+    if(currentMouseState){
+            let pmousePosition = createVector(easycamMouse.prev[0], easycamMouse.prev[1]);
+            let mousePosition = createVector(easycamMouse.curr[0], easycamMouse.curr[1]);
+            let startPosition = getCanvasRelativePosition(pmousePosition);
+            let endPosition = getCanvasRelativePosition(mousePosition);
+            drawInput(canvasBuffer, startPosition, endPosition);
+        
+            pmousePosition = createVector(pmouseX, pmouseY);
+            mousePosition = createVector(mouseX, mouseY);
+            startPosition = getCanvasRelativePosition(pmousePosition);
+            endPosition = getCanvasRelativePosition(mousePosition);
+            drawInput(canvasBuffer, startPosition, endPosition);
+            handleNetwork();
+    }
 
-function mouseReleased() {
-    console.log("mouseReleased");
-    easycam.setActivation(true);
+    beforeMouseState = currentMouseState;
 }
 
 function handleNetwork() {
@@ -181,6 +212,7 @@ function handleNetwork() {
 
     mat3 = multMat(mat2, w3);
     mat3 = addMat(mat3, b3);
+    mat4 = softmax(mat3);
 }
 
 function drawInput(buffer, startPosition, endPosition) {
@@ -192,7 +224,6 @@ function drawInput(buffer, startPosition, endPosition) {
         endPosition.x,
         endPosition.y
     );
-    buffer.ellipse(mouseX, mouseY, 3, 3);
 }
 
 function getCanvasRelativePosition(mousePosition) {

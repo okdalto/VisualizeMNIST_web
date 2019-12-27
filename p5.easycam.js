@@ -325,6 +325,7 @@ class EasyCam {
         avg_d /= count;
         
         cam.mouse.updateInput(avg_x, avg_y, -avg_d);
+        return false;
       },
       
 
@@ -339,6 +340,7 @@ class EasyCam {
         mouse.isPressed = (cam.mouse.istouchdown || cam.mouse.ismousedown);
     
         mouse.dbltap(event);
+        return false;
       },
       
       touchmove : function(event){
@@ -359,6 +361,7 @@ class EasyCam {
             mouse.tapcount = 0;
           }
         }
+        return false;
       },
       
       touchend : function(event){
@@ -372,10 +375,11 @@ class EasyCam {
         
         if(mouse.tapcount >= 2){
           if(mouse.insideViewport(mouse.curr[0], mouse.curr[1])){
-            cam.reset();
+            //cam.reset();
           }
           mouse.tapcount = 0;
         }
+        return false;
       },
 
       
@@ -416,8 +420,6 @@ class EasyCam {
       }
       
     };
-    
-    
     
     // camera mouse listeners
     this.attachMouseListeners();
@@ -637,7 +639,10 @@ class EasyCam {
   //
   // mouse state changes
   //
-  
+    getMouse(){
+        return this.mouse;
+    }
+    
   /** implemented zoom-cb for mouswheel handler.*/
   mouseWheelZoom() {
     var cam = this;
