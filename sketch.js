@@ -369,11 +369,12 @@
 //}
 
 
+
 function setup() {
-    createCanvas(400, 400);
+    createCanvas(400, 400, WEBGL);
 }
 
 function draw() {
     background(220);
-    ellipse(mouseX, mouseY, 100, 100);
+    ellipse(mouseX - width / 2, mouseY - height / 2, 100, 100);
 }
