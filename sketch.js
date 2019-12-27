@@ -172,6 +172,7 @@ function drawInput(buffer, startPosition, endPosition) {
         endPosition.y
     );
     buffer.ellipse(mouseX, mouseY, 3, 3);
+    buffer.ellipse(14, 14, 10, 10);
 }
 
 function getCanvasRelativePosition(mousePosition) {
