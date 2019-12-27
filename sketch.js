@@ -49,11 +49,12 @@ let reshapedMat1;
 let reshapedMat2;
 let reshapedMat3;
 
-
+let myFont;
 
 
 function setup() {
     pixelDensity(1);
+    myFont = loadFont('assets/SWANSE_B.TTF');
     createCanvas(windowWidth, windowHeight);
     visualizationBuffer = createGraphics(windowWidth, windowHeight, WEBGL);
     canvasBuffer = createGraphics(28, 28);
@@ -93,6 +94,8 @@ function draw() {
     var w1Pos     = drawMat(reshapedMat2, -100, visualizationBuffer);
     var w2Pos     = drawMat(reshapedMat3, -150, visualizationBuffer);
     var resultPos = drawMat(mat4, -200, visualizationBuffer);
+    drawResult(resultPos, -200, visualizationBuffer);
+    
     visualizationBuffer.pop();
 
     image(visualizationBuffer, 0, 0);
@@ -125,6 +128,7 @@ function windowResized() {
 var beforeMouseState = easycamMouse.isPressed;
 var state;
 var drawing = false;
+
 function handleMouseEvent() {
     let easycamMouse = easycam.getMouse();
     let currentMouseState = easycamMouse.isPressed;
@@ -207,6 +211,7 @@ function handleNetwork() {
     reshapedMat1 = reshape(inputMat, 28);
     reshapedMat2 = reshape(mat1, 8);
     reshapedMat3 = reshape(mat2, 4);
+    
 }
 
 function drawInput(buffer, startPosition, endPosition) {
@@ -306,7 +311,6 @@ function drawMat(mat, zPosition, pg) {
             );
             pg.translate(result[i][j].x, result[i][j].y, result[i][j].z);
             pg.stroke(255);
-            pg.strokeWeight(1);
             pg.fill(abs(mat[i][j]) * 255);
             pg.box(boxSize);
             pg.pop();
@@ -314,6 +318,34 @@ function drawMat(mat, zPosition, pg) {
     }
     //console.log(result);
     return result;
+}
+
+function drawResult(position, zPosition, pg){
+    var row = position.length;
+    var col = position[0].length;
+    for (let i = 0; i < row; i++) {
+        for (let j = 0; j < col; j++) {
+            pg.push();
+            pg.translate(position[i][j].x, position[i][j].y, position[i][j].z);
+            pg.rotateZ(-PI * 0.5);
+            pg.rotateY(PI);
+            pg.stroke(0);
+            pg.strokeWeight(10);
+            
+            pg.fill(255);
+            pg.textFont(myFont);
+            pg.textAlign(CENTER, CENTER);
+            pg.textSize(16);
+            pg.text(j, 0, 15);
+//            
+//            pg.translate(0,0,-10);
+//            pg.rectMode(CENTER);
+//            pg.fill(0);
+//            pg.noStroke(0);
+//            pg.rect(0, 15, 13, 25);
+            pg.pop();
+        }
+    }
 }
 
 function softmax(x) {
