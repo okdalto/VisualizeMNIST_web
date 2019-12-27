@@ -91,6 +91,7 @@ function draw() {
 
     image(visualizationBuffer, 0, 0);
     image(canvasBuffer, canvasPosition.x, canvasPosition.y, canvasSize.x, canvasSize.y);
+    ellipse(mouseX, mouseY, 100, 100);
 }
 
 function keyPressed() {
@@ -172,7 +173,6 @@ function drawInput(buffer, startPosition, endPosition) {
         endPosition.y
     );
     buffer.ellipse(mouseX, mouseY, 3, 3);
-    buffer.ellipse(14, 14, 10, 10);
 }
 
 function getCanvasRelativePosition(mousePosition) {
