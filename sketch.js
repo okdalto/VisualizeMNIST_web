@@ -104,7 +104,7 @@ function draw() {
 
 function keyPressed() {
     canvasBuffer.background(0);
-    handleInput();
+    handleNetwork();
 }
 
 function windowResized() {
@@ -138,7 +138,7 @@ function handleMouseEvent() {
 //
 //    visualizationBuffer.ellipse(mouseX, mouseY, 100, 100);
 //    drawInput(canvasBuffer, startPosition, endPosition);
-//    handleInput();
+//    handleNetwork();
 //    return false;
 //}
 
