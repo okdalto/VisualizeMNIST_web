@@ -136,6 +136,8 @@ function handleMouseEvent() {
     
     if(currentMouseTapcount >= 2){
         resetCanvas();
+        beforeMouseState = currentMouseState;
+        return;
     }
 
     
