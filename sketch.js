@@ -444,3 +444,8 @@ function relu(mat) {
         }
     }
 }
+
+function deviceShaken() {
+  resetCanvas();
+}
+
