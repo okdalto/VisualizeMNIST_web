@@ -242,7 +242,7 @@ function multMat(matA, matB) {
 }
 
 
-function drawMat(mat, yPosition, pg) {
+function drawMat(mat, zPosition, pg) {
     var row = mat.length;
     var col = mat[0].length;
     var scale = 12;
@@ -256,9 +256,9 @@ function drawMat(mat, yPosition, pg) {
         for (let j = 0; j < col; j++) {
             pg.push();
             result[i][j] = createVector(
-              yPosition,
               i * scale - (row * scale) * 0.5,
-              j * scale - (col * scale) * 0.5
+              j * scale - (col * scale) * 0.5,
+              zPosition
             );
             pg.translate(result[i][j].x, result[i][j].y, result[i][j].z);
             pg.stroke(255);
